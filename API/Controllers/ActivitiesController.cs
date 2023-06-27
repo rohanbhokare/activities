@@ -10,34 +10,34 @@ namespace API.Controllers
     public class ActivitiesController : BaseApiController
     {
         [HttpGet] //api/activities
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        public async Task<IActionResult> GetActivities()
         {
-            return await Meadiator.Send(new List.Query());
+            return HandleResult(await Meadiator.Send(new List.Query()));
         }
 
         [HttpGet("{id}")] // api/activities/idddd
-        public async Task<ActionResult<Activity>> GetActivity(Guid id)
+        public async Task<IActionResult> GetActivity(Guid id)
         {
-            return await Meadiator.Send(new Details.Query { Id= id});
+            return HandleResult(await Meadiator.Send(new Details.Query { Id= id}));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateActicity(Activity activity)
+        public async Task<IActionResult> CreateActicity(Activity activity)
         {
-            return Ok(await Meadiator.Send(new Create.Command {Activity = activity}));
+            return HandleResult(await Meadiator.Send(new Create.Command {Activity = activity}));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditActivity([FromRoute]Guid id, [FromBody]Activity activity)
+        public async Task<IActionResult> EditActivity([FromRoute]Guid id, [FromBody]Activity activity)
         {
             activity.Id = id;
-            return Ok(await Meadiator.Send(new Edit.Command{Activity = activity}));
+            return HandleResult(await Meadiator.Send(new Edit.Command{Activity = activity}));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteActivity([FromRoute]Guid id)
+        public async Task<IActionResult> DeleteActivity([FromRoute]Guid id)
         {
-            return Ok(await Meadiator.Send(new Delete.Command{Id = id}));
+            return HandleResult(await Meadiator.Send(new Delete.Command{Id = id}));
         }
     }
 }
