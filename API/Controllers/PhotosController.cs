@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-    [Route("[controller]")]
     public class PhotosController : BaseApiController
     {
         [HttpPost]
@@ -24,7 +23,7 @@ namespace API.Controllers
             return HandleResult(await Meadiator.Send(new Delete.Command { Id = id}));
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{id}/setmain")]
         public async Task<IActionResult> SetMain(string id)
         {
             return HandleResult(await Meadiator.Send(new SetMain.Command {Id = id}));
